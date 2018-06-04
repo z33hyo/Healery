@@ -378,19 +378,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     public static final UUID UUID_NOTIFICATIONS = UUID.fromString("b2cae818-10f8-46df-ad2b-98ad2254a3c1");
 
     private static final UUID UUID_GBPEBBLE = UUID.fromString("61476764-7465-7262-6469-656775527a6c");
-    private static final UUID UUID_MORPHEUZ = UUID.fromString("5be44f1d-d262-4ea6-aa30-ddbec1e3cab2");
-    private static final UUID UUID_MISFIT = UUID.fromString("0b73b76a-cd65-4dc2-9585-aaa213320858");
-    private static final UUID UUID_PEBBLE_TIMESTYLE = UUID.fromString("4368ffa4-f0fb-4823-90be-f754b076bdaa");
-    private static final UUID UUID_PEBSTYLE = UUID.fromString("da05e84d-e2a2-4020-a2dc-9cdcf265fcdd");
-    private static final UUID UUID_MARIOTIME = UUID.fromString("43caa750-2896-4f46-94dc-1adbd4bc1ff3");
     private static final UUID UUID_HELTHIFY = UUID.fromString("7ee97b2c-95e8-4720-b94e-70fccd905d98");
-    private static final UUID UUID_TREKVOLLE = UUID.fromString("2da02267-7a19-4e49-9ed1-439d25db14e4");
-    private static final UUID UUID_SQUARE = UUID.fromString("cb332373-4ee5-4c5c-8912-4f62af2d756c");
-    private static final UUID UUID_ZALEWSZCZAK_CROWEX = UUID.fromString("a88b3151-2426-43c6-b1d0-9b288b3ec47e");
-    private static final UUID UUID_ZALEWSZCZAK_FANCY = UUID.fromString("014e17bf-5878-4781-8be1-8ef998cee1ba");
-    private static final UUID UUID_ZALEWSZCZAK_TALLY = UUID.fromString("abb51965-52e2-440a-b93c-843eeacb697d");
-    private static final UUID UUID_OBSIDIAN = UUID.fromString("ef42caba-0c65-4879-ab23-edd2bde68824");
-    private static final UUID UUID_SIMPLY_LIGHT = UUID.fromString("04a6e68a-42d6-4738-87b2-1c80a994dee4");
 
     private static final UUID UUID_ZERO = new UUID(0, 0);
 
@@ -402,21 +390,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     public PebbleProtocol(GBDevice device) {
         super(device);
-        mAppMessageHandlers.put(UUID_MORPHEUZ, new AppMessageHandlerMorpheuz(UUID_MORPHEUZ, PebbleProtocol.this));
-        mAppMessageHandlers.put(UUID_MISFIT, new AppMessageHandlerMisfit(UUID_MISFIT, PebbleProtocol.this));
         if (!GBApplication.getGBPrefs().isBackgroundJsEnabled()) {
-            mAppMessageHandlers.put(UUID_PEBBLE_TIMESTYLE, new AppMessageHandlerTimeStylePebble(UUID_PEBBLE_TIMESTYLE, PebbleProtocol.this));
-            mAppMessageHandlers.put(UUID_PEBSTYLE, new AppMessageHandlerPebStyle(UUID_PEBSTYLE, PebbleProtocol.this));
-            mAppMessageHandlers.put(UUID_MARIOTIME, new AppMessageHandlerMarioTime(UUID_MARIOTIME, PebbleProtocol.this));
             mAppMessageHandlers.put(UUID_HELTHIFY, new AppMessageHandlerHealthify(UUID_HELTHIFY, PebbleProtocol.this));
-            mAppMessageHandlers.put(UUID_TREKVOLLE, new AppMessageHandlerTrekVolle(UUID_TREKVOLLE, PebbleProtocol.this));
-            mAppMessageHandlers.put(UUID_SQUARE, new AppMessageHandlerSquare(UUID_SQUARE, PebbleProtocol.this));
-            mAppMessageHandlers.put(UUID_ZALEWSZCZAK_CROWEX, new AppMessageHandlerZalewszczak(UUID_ZALEWSZCZAK_CROWEX, PebbleProtocol.this));
-            mAppMessageHandlers.put(UUID_ZALEWSZCZAK_FANCY, new AppMessageHandlerZalewszczak(UUID_ZALEWSZCZAK_FANCY, PebbleProtocol.this));
-            mAppMessageHandlers.put(UUID_ZALEWSZCZAK_TALLY, new AppMessageHandlerZalewszczak(UUID_ZALEWSZCZAK_TALLY, PebbleProtocol.this));
-            mAppMessageHandlers.put(UUID_OBSIDIAN, new AppMessageHandlerObsidian(UUID_OBSIDIAN, PebbleProtocol.this));
-            mAppMessageHandlers.put(UUID_GBPEBBLE, new AppMessageHandlerGBPebble(UUID_GBPEBBLE, PebbleProtocol.this));
-            mAppMessageHandlers.put(UUID_SIMPLY_LIGHT, new AppMessageHandlerSimplyLight(UUID_SIMPLY_LIGHT, PebbleProtocol.this));
         }
     }
 
