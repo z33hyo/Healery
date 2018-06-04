@@ -50,11 +50,6 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
      */
     protected abstract GBDeviceProtocol createDeviceProtocol();
 
-    /**
-     * Factory method to create the device specific GBDeviceIoThread instance to be used.
-     */
-    protected abstract GBDeviceIoThread createDeviceIOThread();
-
     @Override
     public void dispose() {
         // currently only one thread allowed
@@ -75,22 +70,7 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
         return gbDeviceProtocol;
     }
 
-    /**
-     * Lazily creates and returns the GBDeviceIoThread instance to be used.
-     */
-    public synchronized GBDeviceIoThread getDeviceIOThread() {
-        if (gbDeviceIOThread == null) {
-            gbDeviceIOThread = createDeviceIOThread();
-        }
-        return gbDeviceIOThread;
-    }
 
-    /**
-     * Sends the given message to the device. This implementation delegates the
-     * writing to the {@link #getDeviceIOThread device io thread}
-     *
-     * @param bytes the message to send to the device
-     */
     private void sendToDevice(byte[] bytes) {
         if (bytes != null && gbDeviceIOThread != null) {
             gbDeviceIOThread.write(bytes);
