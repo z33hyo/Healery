@@ -324,13 +324,6 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".service.receivers.GBCallControlReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="nodomain.freeyourgadget.gadgetbridge.callcontrol" />
-            </intent-filter>
-        </receiver>
-        <receiver
             android:enabled="true"
             android:name="nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter"
             android:exported="false">

@@ -53,14 +53,6 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
-    public byte[] encodeSetMusicInfo(String artist, String album, String track, int duration, int trackCount, int trackNr) {
-        return null;
-    }
-
-    public byte[] encodeSetMusicState(byte state, int position, int playRate, byte shuffle, byte repeat) {
-        return null;
-    }
-
     public byte[] encodeFirmwareVersionReq() {
         return null;
     }

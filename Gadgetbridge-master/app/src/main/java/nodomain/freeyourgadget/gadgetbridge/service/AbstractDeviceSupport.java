@@ -50,7 +50,6 @@ import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsHost;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
@@ -60,7 +59,6 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInf
 import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
-import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBCallControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -139,9 +137,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     }
 
     public void evaluateGBDeviceEvent(GBDeviceEvent deviceEvent) {
-        if (deviceEvent instanceof GBDeviceEventCallControl) {
-            handleGBDeviceEvent((GBDeviceEventCallControl) deviceEvent);
-        } else if (deviceEvent instanceof GBDeviceEventVersionInfo) {
+        if (deviceEvent instanceof GBDeviceEventVersionInfo) {
             handleGBDeviceEvent((GBDeviceEventVersionInfo) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventAppInfo) {
             handleGBDeviceEvent((GBDeviceEventAppInfo) deviceEvent);
@@ -173,15 +169,6 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             default:
                 LOG.warn("unknown GBDeviceEventFindPhone");
         }
-    }
-
-    private void handleGBDeviceEvent(GBDeviceEventCallControl callEvent) {
-        Context context = getContext();
-        LOG.info("Got event for CALL_CONTROL");
-        Intent callIntent = new Intent(GBCallControlReceiver.ACTION_CALLCONTROL);
-        callIntent.putExtra("event", callEvent.event.ordinal());
-        callIntent.setPackage(context.getPackageName());
-        context.sendBroadcast(callIntent);
     }
 
     protected void handleGBDeviceEvent(GBDeviceEventVersionInfo infoEvent) {
