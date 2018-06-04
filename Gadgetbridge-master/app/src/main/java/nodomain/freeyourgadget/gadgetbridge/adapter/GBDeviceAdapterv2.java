@@ -255,13 +255,6 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                              {
                                                  @Override
                                                  public void onClick(View v) {
-                                                     if (device.getType() == DeviceType.VIBRATISSIMO) {
-                                                         Intent startIntent;
-                                                         startIntent = new Intent(context, VibrationActivity.class);
-                                                         startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
-                                                         context.startActivity(startIntent);
-                                                         return;
-                                                     }
                                                      GBApplication.deviceService().onFindDevice(true);
                                                      //TODO: extract string resource if we like this solution.
                                                      Snackbar.make(parent, R.string.control_center_find_lost_device, Snackbar.LENGTH_INDEFINITE).setAction("Found it!", new View.OnClickListener() {

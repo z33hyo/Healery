@@ -129,12 +129,6 @@ public class DeviceHelper {
             availableDevices.add(miDevice);
         }
 
-        String pebbleEmuAddr = prefs.getString("pebble_emu_addr", "");
-        String pebbleEmuPort = prefs.getString("pebble_emu_port", "");
-        if (pebbleEmuAddr.length() >= 7 && pebbleEmuPort.length() > 0) {
-            GBDevice pebbleEmuDevice = new GBDevice(pebbleEmuAddr + ":" + pebbleEmuPort, "Pebble qemu", DeviceType.PEBBLE);
-            availableDevices.add(pebbleEmuDevice);
-        }
         return availableDevices;
     }
 
