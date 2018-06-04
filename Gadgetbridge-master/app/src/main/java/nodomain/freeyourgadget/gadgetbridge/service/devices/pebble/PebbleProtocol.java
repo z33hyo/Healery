@@ -43,10 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagement;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppMessage;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.pebble.GBDeviceEventDataLogging;
@@ -275,7 +272,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
     boolean mEnablePebbleKit = false;
     boolean mAlwaysACKPebbleKit = false;
     private boolean mForceProtocol = false;
-    private GBDeviceEventScreenshot mDevEventScreenshot = null;
     private int mScreenshotRemaining = -1;
 
     //monochrome black + white
@@ -1831,55 +1827,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return out;
     }
 
-    private GBDeviceEventScreenshot decodeScreenshot(ByteBuffer buf, int length) {
-        if (mDevEventScreenshot == null) {
-            byte result = buf.get();
-            mDevEventScreenshot = new GBDeviceEventScreenshot();
-            int version = buf.getInt();
-            if (result != 0) {
-                return null;
-            }
-            mDevEventScreenshot.width = buf.getInt();
-            mDevEventScreenshot.height = buf.getInt();
-
-            if (version == 1) {
-                mDevEventScreenshot.bpp = 1;
-                mDevEventScreenshot.clut = clut_pebble;
-            } else {
-                mDevEventScreenshot.bpp = 8;
-                mDevEventScreenshot.clut = clut_pebbletime;
-            }
-
-            mScreenshotRemaining = (mDevEventScreenshot.width * mDevEventScreenshot.height * mDevEventScreenshot.bpp) / 8;
-
-            mDevEventScreenshot.data = new byte[mScreenshotRemaining];
-            length -= 13;
-        }
-        if (mScreenshotRemaining == -1) {
-            return null;
-        }
-        for (int i = 0; i < length; i++) {
-            byte corrected = buf.get();
-            if (mDevEventScreenshot.bpp == 1) {
-                corrected = reverseBits(corrected);
-            } else {
-                corrected = (byte) (corrected & 0b00111111);
-            }
-
-            mDevEventScreenshot.data[mDevEventScreenshot.data.length - mScreenshotRemaining + i] = corrected;
-        }
-        mScreenshotRemaining -= length;
-        LOG.info("Screenshot remaining bytes " + mScreenshotRemaining);
-        if (mScreenshotRemaining == 0) {
-            mScreenshotRemaining = -1;
-            LOG.info("Got screenshot : " + mDevEventScreenshot.width + "x" + mDevEventScreenshot.height + "  " + "pixels");
-            GBDeviceEventScreenshot devEventScreenshot = mDevEventScreenshot;
-            mDevEventScreenshot = null;
-            return devEventScreenshot;
-        }
-        return null;
-    }
-
     private GBDeviceEvent[] decodeAction(ByteBuffer buf) {
         buf.order(ByteOrder.LITTLE_ENDIAN);
         byte command = buf.get();
@@ -2228,49 +2175,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
         GBDeviceEvent devEvts[] = null;
         byte pebbleCmd;
         switch (endpoint) {
-            case ENDPOINT_MUSICCONTROL:
-                pebbleCmd = buf.get();
-                GBDeviceEventMusicControl musicCmd = new GBDeviceEventMusicControl();
-                switch (pebbleCmd) {
-                    case MUSICCONTROL_NEXT:
-                        musicCmd.event = GBDeviceEventMusicControl.Event.NEXT;
-                        break;
-                    case MUSICCONTROL_PREVIOUS:
-                        musicCmd.event = GBDeviceEventMusicControl.Event.PREVIOUS;
-                        break;
-                    case MUSICCONTROL_PLAY:
-                        musicCmd.event = GBDeviceEventMusicControl.Event.PLAY;
-                        break;
-                    case MUSICCONTROL_PAUSE:
-                        musicCmd.event = GBDeviceEventMusicControl.Event.PAUSE;
-                        break;
-                    case MUSICCONTROL_PLAYPAUSE:
-                        musicCmd.event = GBDeviceEventMusicControl.Event.PLAYPAUSE;
-                        break;
-                    case MUSICCONTROL_VOLUMEUP:
-                        musicCmd.event = GBDeviceEventMusicControl.Event.VOLUMEUP;
-                        break;
-                    case MUSICCONTROL_VOLUMEDOWN:
-                        musicCmd.event = GBDeviceEventMusicControl.Event.VOLUMEDOWN;
-                        break;
-                    default:
-                        break;
-                }
-                devEvts = new GBDeviceEvent[]{musicCmd};
-                break;
-            case ENDPOINT_PHONECONTROL:
-                pebbleCmd = buf.get();
-                GBDeviceEventCallControl callCmd = new GBDeviceEventCallControl();
-                switch (pebbleCmd) {
-                    case PHONECONTROL_HANGUP:
-                        callCmd.event = GBDeviceEventCallControl.Event.END;
-                        break;
-                    default:
-                        LOG.info("Unknown PHONECONTROL event" + pebbleCmd);
-                        break;
-                }
-                devEvts = new GBDeviceEvent[]{callCmd};
-                break;
             case ENDPOINT_FIRMWAREVERSION:
                 pebbleCmd = buf.get();
                 GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
@@ -2466,9 +2370,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
             case ENDPOINT_DATALOG:
                 devEvts = decodeDatalog(buf, length);
                 break;
-            case ENDPOINT_SCREENSHOT:
-                devEvts = new GBDeviceEvent[]{decodeScreenshot(buf, length)};
-                break;
             case ENDPOINT_EXTENSIBLENOTIFS:
             case ENDPOINT_NOTIFICATIONACTION:
                 devEvts = decodeAction(buf);
@@ -2506,25 +2407,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         return devEvts;
-    }
-
-    void setForceProtocol(boolean force) {
-        LOG.info("setting force protocol to " + force);
-        mForceProtocol = force;
-    }
-
-    void setAlwaysACKPebbleKit(boolean alwaysACKPebbleKit) {
-        LOG.info("setting always ACK PebbleKit to " + alwaysACKPebbleKit);
-        mAlwaysACKPebbleKit = alwaysACKPebbleKit;
-    }
-
-    void setEnablePebbleKit(boolean enablePebbleKit) {
-        LOG.info("setting enable PebbleKit support to " + enablePebbleKit);
-        mEnablePebbleKit = enablePebbleKit;
-    }
-
-    boolean hasAppMessageHandler(UUID uuid) {
-        return mAppMessageHandlers.containsKey(uuid);
     }
 
     private String getFixedString(ByteBuffer buf, int length) {

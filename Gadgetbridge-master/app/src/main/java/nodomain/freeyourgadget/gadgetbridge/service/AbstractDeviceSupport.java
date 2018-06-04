@@ -17,29 +17,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.SmsManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -53,7 +40,6 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInf
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepMonitorResult;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
@@ -61,8 +47,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-
-import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
 
 // TODO: support option for a single reminder notification when notifications could not be delivered?
 // conditions: app was running and received notifications, but device was not connected.
@@ -143,8 +127,6 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             handleGBDeviceEvent((GBDeviceEventAppInfo) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventSleepMonitorResult) {
             handleGBDeviceEvent((GBDeviceEventSleepMonitorResult) deviceEvent);
-        } else if (deviceEvent instanceof GBDeviceEventScreenshot) {
-            handleGBDeviceEvent((GBDeviceEventScreenshot) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventNotificationControl) {
             handleGBDeviceEvent((GBDeviceEventNotificationControl) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventBatteryInfo) {
@@ -210,47 +192,6 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         LocalBroadcastManager.getInstance(context).sendBroadcast(sleepMonitorIntent);
     }
 
-    private void handleGBDeviceEvent(GBDeviceEventScreenshot screenshot) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-hhmmss", Locale.US);
-        String filename = "screenshot_" + dateFormat.format(new Date()) + ".bmp";
-
-        try {
-            String fullpath = GB.writeScreenshot(screenshot, filename);
-            Bitmap bmp = BitmapFactory.decodeFile(fullpath);
-            Intent intent = new Intent();
-            intent.setAction(android.content.Intent.ACTION_VIEW);
-            Uri screenshotURI = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".screenshot_provider", new File(fullpath));
-            intent.setDataAndType(screenshotURI, "image/*");
-
-            PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, 0);
-
-            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("image/*");
-            shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotURI);
-
-            PendingIntent pendingShareIntent = PendingIntent.getActivity(context, 0, Intent.createChooser(shareIntent, "share screenshot"),
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-
-            NotificationCompat.Action action = new NotificationCompat.Action.Builder(android.R.drawable.ic_menu_share, "share", pendingShareIntent).build();
-
-            Notification notif = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-                    .setContentTitle("Screenshot taken")
-                    .setTicker("Screenshot taken")
-                    .setContentText(filename)
-                    .setSmallIcon(R.drawable.ic_notification)
-                    .setStyle(new NotificationCompat.BigPictureStyle()
-                            .bigPicture(bmp))
-                    .setContentIntent(pIntent)
-                    .addAction(action)
-                    .setAutoCancel(true)
-                    .build();
-
-            NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            nm.notify(NOTIFICATION_ID_SCREENSHOT, notif);
-        } catch (IOException ex) {
-            LOG.error("Error writing screenshot", ex);
-        }
-    }
 
     private void handleGBDeviceEvent(GBDeviceEventNotificationControl deviceEvent) {
         Context context = getContext();

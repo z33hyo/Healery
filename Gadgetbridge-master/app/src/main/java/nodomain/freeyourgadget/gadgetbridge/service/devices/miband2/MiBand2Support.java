@@ -52,7 +52,6 @@ import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -919,18 +918,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         if (value == null || value.length != 1) {
             return;
         }
-        GBDeviceEventCallControl callCmd = new GBDeviceEventCallControl();
-
         switch (value[0]) {
-            case HuamiDeviceEvent.CALL_REJECT:
-                callCmd.event = GBDeviceEventCallControl.Event.REJECT;
-                evaluateGBDeviceEvent(callCmd);
-                break;
-            case HuamiDeviceEvent.CALL_IGNORE:
-                LOG.info("ignore call (not yet supported)");
-                //callCmd.event = GBDeviceEventCallControl.Event.IGNORE;
-                //evaluateGBDeviceEvent(callCmd);
-                break;
             case HuamiDeviceEvent.BUTTON_PRESSED:
                 LOG.info("button pressed");
                 handleButtonEvent();
