@@ -70,7 +70,6 @@ class PebbleIoThread extends GBDeviceIoThread {
 
     private final PebbleProtocol mPebbleProtocol;
     private final PebbleSupport mPebbleSupport;
-    private PebbleKitSupport mPebbleKitSupport;
     private final boolean mEnablePebblekit;
 
     private boolean mIsTCP = false;
@@ -225,7 +224,6 @@ class PebbleIoThread extends GBDeviceIoThread {
         }
 
         byte[] buffer = new byte[8192];
-        enablePebbleKitSupport(true);
         mQuit = false;
         while (!mQuit) {
             try {
@@ -401,8 +399,6 @@ class PebbleIoThread extends GBDeviceIoThread {
             mBtSocket = null;
         }
 
-        enablePebbleKitSupport(false);
-
         if (mQuit) {
             gbDevice.setState(GBDevice.State.NOT_CONNECTED);
         } else {
@@ -410,18 +406,6 @@ class PebbleIoThread extends GBDeviceIoThread {
         }
         gbDevice.sendDeviceUpdateIntent(getContext());
     }
-
-    private void enablePebbleKitSupport(boolean enable) {
-        if (enable && mEnablePebblekit) {
-            mPebbleKitSupport = new PebbleKitSupport(getContext(), PebbleIoThread.this, mPebbleProtocol);
-        } else {
-            if (mPebbleKitSupport != null) {
-                mPebbleKitSupport.close();
-                mPebbleKitSupport = null;
-            }
-        }
-    }
-
 
     private void write_real(byte[] bytes) {
         try {
@@ -548,19 +532,6 @@ class PebbleIoThread extends GBDeviceIoThread {
         } else if (deviceEvent instanceof GBDeviceEventAppMessage) {
             if (GBApplication.getGBPrefs().isBackgroundJsEnabled()) {
                 sendAppMessageJS((GBDeviceEventAppMessage) deviceEvent);
-            }
-            if (mEnablePebblekit) {
-                LOG.info("Got AppMessage event");
-                if (mPebbleKitSupport != null && ((GBDeviceEventAppMessage) deviceEvent).type == GBDeviceEventAppMessage.TYPE_APPMESSAGE) {
-                    mPebbleKitSupport.sendAppMessageIntent((GBDeviceEventAppMessage) deviceEvent);
-                }
-            }
-        } else if (deviceEvent instanceof GBDeviceEventDataLogging) {
-            if (mEnablePebblekit) {
-                LOG.info("Got Datalogging event");
-                if (mPebbleKitSupport != null) {
-                    mPebbleKitSupport.sendDataLoggingIntent((GBDeviceEventDataLogging) deviceEvent);
-                }
             }
         }
 
