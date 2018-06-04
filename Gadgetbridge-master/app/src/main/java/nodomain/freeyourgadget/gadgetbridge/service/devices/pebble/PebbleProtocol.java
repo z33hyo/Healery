@@ -391,7 +391,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
     public PebbleProtocol(GBDevice device) {
         super(device);
         if (!GBApplication.getGBPrefs().isBackgroundJsEnabled()) {
-            mAppMessageHandlers.put(UUID_HELTHIFY, new AppMessageHandlerHealthify(UUID_HELTHIFY, PebbleProtocol.this));
         }
     }
 

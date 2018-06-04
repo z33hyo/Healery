@@ -46,7 +46,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2Coordin
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2HRXCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributes;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -189,7 +188,6 @@ public class DeviceHelper {
         result.add(new MiBand2HRXCoordinator()); // Note: must come before MiBand2 because detection is hacky, atm
         result.add(new MiBand2Coordinator()); // Note: MiBand2 must come before MiBand because detection is hacky, atm
         result.add(new MiBandCoordinator());
-        result.add(new PebbleCoordinator());
 
         return result;
     }
