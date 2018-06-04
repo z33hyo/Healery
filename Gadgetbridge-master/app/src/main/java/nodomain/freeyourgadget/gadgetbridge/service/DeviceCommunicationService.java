@@ -51,7 +51,6 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothPairingRequestReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -142,7 +141,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private GBDevice mGBDevice = null;
     private DeviceSupport mDeviceSupport;
 
-    private PebbleReceiver mPebbleReceiver = null;
     private TimeChangeReceiver mTimeChangeReceiver = null;
     private BluetoothConnectReceiver mBlueToothConnectReceiver = null;
     private BluetoothPairingRequestReceiver mBlueToothPairingRequestReceiver = null;
@@ -564,10 +562,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         }
 
         if (enable) {
-            if (mPebbleReceiver == null) {
-                mPebbleReceiver = new PebbleReceiver();
-                registerReceiver(mPebbleReceiver, new IntentFilter("com.getpebble.action.SEND_NOTIFICATION"));
-            }
             if (mTimeChangeReceiver == null) {
                 mTimeChangeReceiver = new TimeChangeReceiver();
                 IntentFilter filter = new IntentFilter();
@@ -591,11 +585,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 registerReceiver(mAlarmClockReceiver, filter);
             }
         } else {
-
-            if (mPebbleReceiver != null) {
-                unregisterReceiver(mPebbleReceiver);
-                mPebbleReceiver = null;
-            }
             if (mTimeChangeReceiver != null) {
                 unregisterReceiver(mTimeChangeReceiver);
                 mTimeChangeReceiver = null;
