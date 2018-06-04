@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_key_general"
+        android:title="@string/pref_header_general">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="general_autostartonboot"
+            android:title="@string/pref_title_general_autostartonboot" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="general_autoconnectonbluetooth"
+            android:title="@string/pref_title_general_autoconnectonbluetooth" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="general_autocreconnect"
+            android:title="@string/pref_title_general_autoreconnect" />
+        <ListPreference
+            android:key="pref_key_theme"
+            android:title="@string/pref_title_theme"
+            android:entries="@array/pref_theme_options"
+            android:entryValues="@array/pref_theme_values"
+            android:defaultValue="@string/pref_theme_value_light"
+            android:summary="%s" />
+        <ListPreference
+            android:key="language"
+            android:title="@string/pref_title_language"
+            android:entries="@array/pref_language_options"
+            android:entryValues="@array/pref_language_values"
+            android:defaultValue="default"
+            android:summary="%s" />
+        <ListPreference
+            android:defaultValue="metric"
+            android:entries="@array/pref_entries_unit_system"
+            android:entryValues="@array/pref_values_unit_system"
+            android:key="measurement_system"
+            android:summary="%s"
+            android:title="@string/pref_title_unit_system" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="minimize_priority"
+            android:summaryOff="@string/pref_summary_minimize_priority_off"
+            android:summaryOn="@string/pref_summary_minimize_priority_on"
+            android:title="@string/pref_title_minimize_priority" />
+
+        <PreferenceScreen
+            android:key="pref_category_activity_personal"
+            android:title="@string/activity_prefs_about_you">
+
+            <EditTextPreference
+                android:inputType="number"
+                android:key="activity_user_year_of_birth"
+                android:maxLength="4"
+                android:title="@string/activity_prefs_year_birth" />
+
+            <ListPreference
+                android:defaultValue="2"
+                android:entries="@array/gender"
+                android:entryValues="@array/gender_values"
+                android:key="activity_user_gender"
+                android:title="@string/activity_prefs_gender"
+                android:summary="%s" />
+
+            <!--TODO: support localized heights and weights -->
+            <EditTextPreference
+                android:inputType="number"
+                android:key="activity_user_height_cm"
+                android:maxLength="3"
+                android:title="@string/activity_prefs_height_cm" />
+
+            <EditTextPreference
+                android:inputType="number"
+                android:key="activity_user_weight_kg"
+                android:maxLength="3"
+                android:title="@string/activity_prefs_weight_kg" />
+
+            <EditTextPreference
+                android:defaultValue="10000"
+                android:inputType="number"
+                android:key="mi_fitness_goal"
+                android:maxLength="5"
+                android:title="@string/miband_prefs_fitness_goal" />
+
+            <EditTextPreference
+                android:inputType="number"
+                android:key="activity_user_sleep_duration"
+                android:maxLength="2"
+                android:title="@string/activity_prefs_sleep_duration" />
+        </PreferenceScreen>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="charts_allow_swipe"
+            android:title="@string/pref_title_charts_swipe" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_key_datetime"
+        android:title="@string/pref_header_datetime">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="datetime_synconconnect"
+            android:summary="@string/pref_summary_datetime_syctimeonconnect"
+            android:title="@string/pref_title_datetime_syctimeonconnect" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_key_notifications"
+        android:title="@string/pref_header_notifications">
+
+        <ListPreference
+            android:defaultValue="always"
+            android:entries="@array/notification_mode_toggle"
+            android:entryValues="@array/notification_mode_values_toggle"
+            android:key="notification_mode_calls"
+            android:title="@string/pref_title_notifications_call"
+            android:summary="%s" />
+
+        <ListPreference
+            android:defaultValue="when_screen_off"
+            android:entries="@array/notification_mode"
+            android:entryValues="@array/notification_mode_values"
+            android:key="notification_mode_sms"
+            android:title="@string/pref_title_notifications_sms"
+            android:summary="%s" />
+
+        <Preference
+            android:key="notifications_generic"
+            android:title="@string/pref_title_notifications_generic" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notifications_generic_whenscreenon"
+            android:title="@string/pref_title_whenscreenon" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="transliteration"
+            android:summary="@string/pref_summary_transliteration"
+            android:title="@string/pref_title_transliteration"
+            />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notification_filter"
+            android:summary="@string/pref_summary_notification_filter"
+            android:title="@string/pref_title_notification_filter" />
+
+        <Preference
+            android:key="pref_key_blacklist"
+            android:title="@string/pref_blacklist" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_header_privacy">
+    <ListPreference
+        android:defaultValue="@string/p_call_privacy_mode_off"
+        android:key="pref_call_privacy_mode"
+        android:title="@string/pref_title_call_privacy_mode"
+        android:entries="@array/pref_call_privacy_mode"
+        android:entryValues="@array/pref_call_privacy_mode_values"
+        android:summary="%s" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/preferences_category_device_specific_settings">
+        <Preference
+            android:icon="@drawable/ic_device_miband"
+            android:key="pref_key_miband"
+            android:title="@string/preferences_miband_settings" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_header_auto_export">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="auto_export_enabled"
+            android:title="@string/pref_title_auto_export_enabled" />
+        <Preference
+            android:key="auto_export_location"
+            android:title="@string/pref_title_auto_export_location"
+            android:summary="%s" />
+        <EditTextPreference
+            android:inputType="number"
+            android:key="auto_export_interval"
+            android:defaultValue="3"
+            android:maxLength="3"
+            android:title="@string/pref_title_auto_export_interval"
+            android:summary="@string/pref_summary_auto_export_interval"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_key_development"
+        android:title="@string/pref_header_development">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="log_to_file"
+            android:title="@string/pref_write_logfiles" />
+    </PreferenceCategory>
+</PreferenceScreen>
