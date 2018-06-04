@@ -58,6 +58,7 @@ public class GBDaoGenerator {
         deviceAttributes.addStringProperty("volatileIdentifier");
 
         Entity tag = addTag(schema);
+        Entity userDefinedActivityOverlay = addActivityDescription(schema, tag, user);
 
         addMiBandActivitySample(schema, user, device);
 
