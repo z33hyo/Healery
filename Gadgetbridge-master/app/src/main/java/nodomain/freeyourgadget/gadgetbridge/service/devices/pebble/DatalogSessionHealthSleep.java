@@ -22,8 +22,6 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -31,8 +29,6 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
-import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlay;
-import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlayDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -82,14 +78,6 @@ class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
             Long userId = DBHelper.getUser(session).getId();
             Long deviceId = DBHelper.getDevice(getDevice(), session).getId();
 
-            PebbleHealthActivityOverlayDao overlayDao = session.getPebbleHealthActivityOverlayDao();
-
-            List<PebbleHealthActivityOverlay> overlayList = new ArrayList<>();
-            for (SleepRecord sleepRecord : sleepRecords) {
-                //TODO: check the firmware version and don't use the sleep record if overlay is available?
-                overlayList.add(new PebbleHealthActivityOverlay(sleepRecord.bedTimeStart, sleepRecord.bedTimeEnd, sleepRecord.type, deviceId, userId, sleepRecord.getRawData()));
-            }
-            overlayDao.insertOrReplaceInTx(overlayList);
         } catch (Exception ex) {
             LOG.debug(ex.getMessage());
         }

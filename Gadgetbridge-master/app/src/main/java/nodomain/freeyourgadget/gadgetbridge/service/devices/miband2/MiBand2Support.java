@@ -418,7 +418,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         }
         int userid = alias.hashCode(); // hash from alias like mi1
 
-        // FIXME: Do encoding like in PebbleProtocol, this is ugly
         byte bytes[] = new byte[]{
                 MiBand2Service.COMMAND_SET_USERINFO,
                 0,

@@ -23,7 +23,6 @@ import java.nio.ByteBuffer;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.pebble.GBDeviceEventDataLogging;
 
 class DatalogSession {
     private static final Logger LOG = LoggerFactory.getLogger(DatalogSession.class);
@@ -51,45 +50,5 @@ class DatalogSession {
 
     String getTaginfo() {
         return taginfo;
-    }
-
-    GBDeviceEvent[] handleMessageForPebbleKit(ByteBuffer buf, int length) {
-        if (0 != (length % itemSize)) {
-            LOG.warn("invalid length");
-            return null;
-        }
-        int packetCount = length / itemSize;
-
-        if (packetCount <= 0) {
-            LOG.warn("invalid number of datalog elements");
-            return null;
-        }
-
-        GBDeviceEventDataLogging dataLogging = new GBDeviceEventDataLogging();
-        dataLogging.command = GBDeviceEventDataLogging.COMMAND_RECEIVE_DATA;
-        dataLogging.appUUID = uuid;
-        dataLogging.timestamp = timestamp & 0xffffffffL;
-        dataLogging.tag = tag;
-        dataLogging.pebbleDataType = itemType;
-        dataLogging.data = new Object[packetCount];
-
-        for (int i = 0; i < packetCount; i++) {
-            switch (itemType) {
-                case PebbleProtocol.TYPE_BYTEARRAY:
-                    byte[] itemData = new byte[itemSize];
-                    buf.get(itemData);
-                    dataLogging.data[i] = itemData;
-                    break;
-
-                case PebbleProtocol.TYPE_UINT:
-                    dataLogging.data[i] = buf.getInt() & 0xffffffffL;
-                    break;
-
-                case PebbleProtocol.TYPE_INT:
-                    dataLogging.data[i] = buf.getInt();
-                    break;
-            }
-        }
-        return new GBDeviceEvent[]{dataLogging, null};
     }
 }
