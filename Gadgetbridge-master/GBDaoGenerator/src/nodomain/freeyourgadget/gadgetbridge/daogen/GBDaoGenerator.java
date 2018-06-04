@@ -58,17 +58,8 @@ public class GBDaoGenerator {
         deviceAttributes.addStringProperty("volatileIdentifier");
 
         Entity tag = addTag(schema);
-        Entity userDefinedActivityOverlay = addActivityDescription(schema, tag, user);
 
         addMiBandActivitySample(schema, user, device);
-        addPebbleHealthActivitySample(schema, user, device);
-        addPebbleHealthActivityKindOverlay(schema, user, device);
-        addPebbleMisfitActivitySample(schema, user, device);
-        addPebbleMorpheuzActivitySample(schema, user, device);
-        addHPlusHealthActivityKindOverlay(schema, user, device);
-        addHPlusHealthActivitySample(schema, user, device);
-        addNo1F1ActivitySample(schema, user, device);
-        addXWatchActivitySample(schema, user, device);
 
         addCalendarSyncState(schema, device);
 
@@ -194,98 +185,6 @@ public class GBDaoGenerator {
         activitySample.addIntProperty(SAMPLE_HEART_RATE).notNull().codeBeforeGetterAndSetter(OVERRIDE);
     }
 
-    private static Entity addPebbleHealthActivitySample(Schema schema, Entity user, Entity device) {
-        Entity activitySample = addEntity(schema, "PebbleHealthActivitySample");
-        addCommonActivitySampleProperties("AbstractPebbleHealthActivitySample", activitySample, user, device);
-        activitySample.addByteArrayProperty("rawPebbleHealthData").codeBeforeGetter(OVERRIDE);
-        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
-        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
-        addHeartRateProperties(activitySample);
-        return activitySample;
-    }
-
-    private static Entity addPebbleHealthActivityKindOverlay(Schema schema, Entity user, Entity device) {
-        Entity activityOverlay = addEntity(schema, "PebbleHealthActivityOverlay");
-
-        activityOverlay.addIntProperty(TIMESTAMP_FROM).notNull().primaryKey();
-        activityOverlay.addIntProperty(TIMESTAMP_TO).notNull().primaryKey();
-        activityOverlay.addIntProperty(SAMPLE_RAW_KIND).notNull().primaryKey();
-        Property deviceId = activityOverlay.addLongProperty("deviceId").primaryKey().notNull().getProperty();
-        activityOverlay.addToOne(device, deviceId);
-
-        Property userId = activityOverlay.addLongProperty("userId").notNull().getProperty();
-        activityOverlay.addToOne(user, userId);
-        activityOverlay.addByteArrayProperty("rawPebbleHealthData");
-
-        return activityOverlay;
-    }
-
-    private static Entity addPebbleMisfitActivitySample(Schema schema, Entity user, Entity device) {
-        Entity activitySample = addEntity(schema, "PebbleMisfitSample");
-        addCommonActivitySampleProperties("AbstractPebbleMisfitActivitySample", activitySample, user, device);
-        activitySample.addIntProperty("rawPebbleMisfitSample").notNull().codeBeforeGetter(OVERRIDE);
-        return activitySample;
-    }
-
-    private static Entity addPebbleMorpheuzActivitySample(Schema schema, Entity user, Entity device) {
-        Entity activitySample = addEntity(schema, "PebbleMorpheuzSample");
-        addCommonActivitySampleProperties("AbstractPebbleMorpheuzActivitySample", activitySample, user, device);
-        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
-        return activitySample;
-    }
-
-    private static Entity addHPlusHealthActivitySample(Schema schema, Entity user, Entity device) {
-        Entity activitySample = addEntity(schema, "HPlusHealthActivitySample");
-        activitySample.implementsSerializable();
-        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
-        activitySample.addByteArrayProperty("rawHPlusHealthData");
-        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().primaryKey();
-        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
-        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
-        addHeartRateProperties(activitySample);
-        activitySample.addIntProperty("distance");
-        activitySample.addIntProperty("calories");
-
-        return activitySample;
-    }
-
-    private static Entity addHPlusHealthActivityKindOverlay(Schema schema, Entity user, Entity device) {
-        Entity activityOverlay = addEntity(schema, "HPlusHealthActivityOverlay");
-
-        activityOverlay.addIntProperty(TIMESTAMP_FROM).notNull().primaryKey();
-        activityOverlay.addIntProperty(TIMESTAMP_TO).notNull().primaryKey();
-        activityOverlay.addIntProperty(SAMPLE_RAW_KIND).notNull().primaryKey();
-        Property deviceId = activityOverlay.addLongProperty("deviceId").primaryKey().notNull().getProperty();
-        activityOverlay.addToOne(device, deviceId);
-
-        Property userId = activityOverlay.addLongProperty("userId").notNull().getProperty();
-        activityOverlay.addToOne(user, userId);
-        activityOverlay.addByteArrayProperty("rawHPlusHealthData");
-        return activityOverlay;
-    }
-
-    private static Entity addNo1F1ActivitySample(Schema schema, Entity user, Entity device) {
-        Entity activitySample = addEntity(schema, "No1F1ActivitySample");
-        activitySample.implementsSerializable();
-        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
-        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
-        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
-        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
-        addHeartRateProperties(activitySample);
-        return activitySample;
-    }
-
-    private static Entity addXWatchActivitySample(Schema schema, Entity user, Entity device) {
-        Entity activitySample = addEntity(schema, "XWatchActivitySample");
-        activitySample.implementsSerializable();
-        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
-        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
-        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
-        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
-        addHeartRateProperties(activitySample);
-        return activitySample;
-    }
-
     private static void addCommonActivitySampleProperties(String superClass, Entity activitySample, Entity user, Entity device) {
         activitySample.setSuperclass(superClass);
         activitySample.addImport(MAIN_PACKAGE + ".devices.SampleProvider");
@@ -337,15 +236,6 @@ public class GBDaoGenerator {
         summary.addToOne(device, deviceId);
         Property userId = summary.addLongProperty("userId").notNull().codeBeforeGetter(OVERRIDE).getProperty();
         summary.addToOne(user, userId);
-    }
-
-    private static Property findProperty(Entity entity, String propertyName) {
-        for (Property prop : entity.getProperties()) {
-            if (propertyName.equals(prop.getPropertyName())) {
-                return prop;
-            }
-        }
-        throw new IllegalArgumentException("Property " + propertyName + " not found in Entity " + entity.getClassName());
     }
 
     private static Entity addEntity(Schema schema, String className) {
