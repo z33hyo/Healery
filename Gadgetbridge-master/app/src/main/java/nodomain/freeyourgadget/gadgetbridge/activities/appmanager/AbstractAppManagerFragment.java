@@ -94,23 +94,6 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         appList.addAll(getCachedApps(uuids));
     }
 
-    private void refreshListFromPebble(Intent intent) {
-        appList.clear();
-        int appCount = intent.getIntExtra("app_count", 0);
-        for (Integer i = 0; i < appCount; i++) {
-            String appName = intent.getStringExtra("app_name" + i.toString());
-            String appCreator = intent.getStringExtra("app_creator" + i.toString());
-            UUID uuid = UUID.fromString(intent.getStringExtra("app_uuid" + i.toString()));
-            GBDeviceApp.Type appType = GBDeviceApp.Type.values()[intent.getIntExtra("app_type" + i.toString(), 0)];
-
-            GBDeviceApp app = new GBDeviceApp(uuid, appName, appCreator, "", appType);
-            app.setOnDevice(true);
-            if (filterApp(app)) {
-                appList.add(app);
-            }
-        }
-    }
-
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) { }
@@ -157,8 +140,6 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             }
         });
         appListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mGBDeviceAppAdapter = new GBDeviceAppAdapter(appList, R.layout.item_pebble_watchapp, this);
-        appListView.setAdapter(mGBDeviceAppAdapter);
 
         ItemTouchHelper.Callback appItemTouchHelperCallback = new AppItemTouchHelperCallback(mGBDeviceAppAdapter);
         appManagementTouchHelper = new ItemTouchHelper(appItemTouchHelperCallback);

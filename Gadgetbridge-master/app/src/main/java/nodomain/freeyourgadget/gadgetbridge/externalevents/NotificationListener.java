@@ -375,17 +375,4 @@ public class NotificationListener extends NotificationListenerService {
         return (notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT;
 
     }
-
-
-    /**
-     * Get the notification color that should be used for this Pebble notification.
-     *
-     * Note that this method will *not* edit the NotificationSpec passed in. It will only evaluate the PebbleColor.
-     *
-     * See Issue #815 on GitHub to see how notification colors are set.
-     *
-     * @param notificationSpec The NotificationSpec to read from.
-     * @return Returns a PebbleColor that best represents this notification.
-     */
-
 }
