@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ActivityMainNavi"
+    tools:showIn="@layout/app_bar_activity_main_navi">
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:background="@color/colorButton"
+        android:padding="0dp"
+        android:text="@string/main_recommend"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/big_font_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"></Button>
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/heart_rate_normal"
+        android:textSize="@dimen/big_font_size"
+        android:paddingTop="@dimen/margin_4"
+        android:paddingLeft="@dimen/margin_1"/>
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/textView1">
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/heart_rate_normal_low"
+            android:textSize="@dimen/bigbig_font_size" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tilde"
+            android:textSize="@dimen/bigbig_font_size" />
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/heart_rate_normal_high"
+            android:gravity="center"
+            android:textSize="@dimen/bigbig_font_size" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/heart_rate_my"
+        android:paddingTop="@dimen/margin_4"
+        android:paddingLeft="@dimen/margin_1"
+        android:textSize="@dimen/big_font_size"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout1" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="00"
+        android:gravity="center"
+        android:textSize="@dimen/bigbig_font_size"
+        app:layout_constraintTop_toBottomOf="@id/textView5" />
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="@string/go_recommend"
+        app:layout_constraintBottom_toTopOf="@id/button"
+        android:textSize="@dimen/normal_font_size"
+        android:layout_marginBottom="@dimen/margin_1"
+        android:layout_marginHorizontal="@dimen/margin_1"/>
+</android.support.constraint.ConstraintLayout>

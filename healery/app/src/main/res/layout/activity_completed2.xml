@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityCompleted2">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/completed_before_beat"
+        android:textSize="@dimen/big_font_size"
+        android:paddingTop="@dimen/margin_4"
+        android:paddingLeft="@dimen/margin_1"
+        app:layout_constraintTop_toBottomOf="@id/include"/>
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="00"
+        android:gravity="center"
+        android:textSize="@dimen/bigbig_font_size"
+        app:layout_constraintTop_toBottomOf="@id/textView7" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/completed_now_beat"
+        android:paddingTop="@dimen/margin_4"
+        android:paddingLeft="@dimen/margin_1"
+        android:textSize="@dimen/big_font_size"
+        app:layout_constraintTop_toBottomOf="@id/textView8" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="00"
+        android:gravity="center"
+        android:textSize="@dimen/bigbig_font_size"
+        app:layout_constraintTop_toBottomOf="@id/textView9" />
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/textView10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/completed_bad"
+            android:textSize="@dimen/big_font_size"
+            android:paddingHorizontal="@dimen/margin_1"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin_1"
+            app:layout_constraintTop_toBottomOf="@id/textView11">
+            <Button
+                android:id="@+id/button6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/yes"
+                android:textSize="@dimen/big_font_size"
+                android:background="@color/colorButton"
+                android:textColor="@color/colorWhite"
+                android:layout_marginRight="@dimen/margin_4"
+                android:padding="10dp"
+                />
+
+            <Button
+                android:id="@+id/button7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no"
+                android:textSize="@dimen/big_font_size"
+                android:background="@color/colorButton"
+                android:textColor="@color/colorWhite"
+                android:padding="10dp"/>
+
+        </LinearLayout>
+
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

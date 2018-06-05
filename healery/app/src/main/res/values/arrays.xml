@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category">
+        <item>영상 시청</item>
+        <item>운동</item>
+        <item>게임</item>
+        <item>명상</item>
+        <item>산책</item>
+        <item>음악 감상</item>
+        <item>디저트</item>
+        <item>영화</item>
+        <item>음식</item>
+        <item>쇼핑</item>
+        <item>수면</item>
+        <item>노래부르기</item>
+
+    </string-array>
+</resources>

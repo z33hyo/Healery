@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Healery_Test</string>
+
+    <string name="ask_preference">당신의 취향은?</string>
+    <string name="preference_assist">3~4가지를 선택해주세요.</string>
+    <string name="select_complete">선택 완료</string>
+    <string name="heart_rate_normal">심박수 정상범위</string>
+    <string name="heart_rate_normal_low">00</string>
+    <string name="heart_rate_normal_high">00</string>
+    <string name="heart_rate_my">나의 심박수</string>
+    <string name="tilde">~</string>
+    <string name="go_recommend">심박수가 정상범위보다 높습니다.\n힐러리의 추천을 받아보세요.</string>
+
+    <string name="report">리포트</string>
+    <string name="category_setting">카테고리 재설정</string>
+    <string name="setting">환경설정</string>
+
+    <string name="select_activity">활동 선택</string>
+
+    <string name="activity_choiced">추천 활동</string>
+    <string name="perform_please">추천 활동을 수행해주세요!</string>
+    <string name="complete">Complete</string>
+    <string name="perform_stop">Stop</string>
+
+    <string name="completed_before_beat">활동 전 심박수</string>
+    <string name="completed_now_beat">현재 심박수</string>
+    <string name="completed_good">축하합니다. 스트레스 지수가 낮아졌어요!</string>
+    <string name="completed_bad">효과가 없네요. 다른 활동을 추천 받으시겠어요?</string>
+    <string name="main_recommend">추천 받기</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="title_activity_navi">Navi</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main_navi">ActivityMainNavi</string>
+</resources>

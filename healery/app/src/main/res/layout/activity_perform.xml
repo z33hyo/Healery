@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityPerform">
+    <include
+        android:id="@+id/include"
+        layout="@layout/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include">
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_choiced"
+            android:textSize="@dimen/normal_font_size"
+            android:textColor="@color/colorGray"
+            android:layout_marginHorizontal="@dimen/margin_4"/>
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_1"
+            android:background="@drawable/txtview_border"
+            android:padding="15dp"
+            android:text="카페가서 엄청 단 음료 마시기(임시)"
+            android:textSize="@dimen/big_font_size"
+            android:layout_marginVertical="@dimen/margin_1"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"/>
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin_2"
+            android:text="@string/perform_please"
+            android:textSize="@dimen/big_font_size"
+            app:layout_constraintTop_toBottomOf="@+id/textView5"/>
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/complete"
+            android:textSize="@dimen/normal_font_size"
+            android:layout_marginHorizontal="@dimen/margin_2"
+            android:layout_marginTop="@dimen/margin_1"
+            android:padding="10dp"
+            android:textColor="@color/colorWhite"
+            android:background="@color/colorButton"
+            app:layout_constraintTop_toBottomOf="@id/textView6"/>
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/button4"
+            android:text="@string/perform_stop"
+            android:padding="10dp"
+            android:textSize="@dimen/normal_font_size"
+            android:textColor="@color/colorWhite"
+            android:background="@color/colorButton"
+            android:layout_marginVertical="@dimen/margin_1"
+            android:layout_marginHorizontal="@dimen/margin_2"/>
+    </android.support.constraint.ConstraintLayout>
+
+
+</android.support.constraint.ConstraintLayout>
