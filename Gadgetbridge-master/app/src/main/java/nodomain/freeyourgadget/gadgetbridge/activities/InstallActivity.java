@@ -25,8 +25,6 @@ public interface InstallActivity {
 
     void setInstallEnabled(boolean enable);
 
-    void clearInstallItems();
-
     void setInstallItem(ItemWithDetails item);
 
 }

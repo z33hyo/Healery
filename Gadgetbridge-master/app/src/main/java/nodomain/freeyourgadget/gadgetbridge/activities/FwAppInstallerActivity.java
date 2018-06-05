@@ -234,12 +234,6 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
     }
 
     @Override
-    public void clearInstallItems() {
-        mItems.clear();
-        mItemAdapter.notifyDataSetChanged();
-    }
-
-    @Override
     public void setInstallItem(ItemWithDetails item) {
         mItems.clear();
         mItems.add(item);

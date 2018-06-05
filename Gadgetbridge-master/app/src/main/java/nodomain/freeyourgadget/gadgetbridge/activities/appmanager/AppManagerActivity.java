@@ -118,8 +118,6 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
                     return new AppManagerFragmentCache();
                 case 1:
                     return new AppManagerFragmentInstalledApps();
-                case 2:
-                    return new AppManagerFragmentInstalledWatchfaces();
             }
             return null;
         }
@@ -137,8 +135,6 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
                 case 1:
                     return getString(R.string.appmanager_installed_watchapps);
                 case 2:
-                    return getString(R.string.appmanager_installed_watchfaces);
-                case 3:
             }
             return super.getPageTitle(position);
         }
