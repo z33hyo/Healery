@@ -116,8 +116,6 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
             switch (position) {
                 case 0:
                     return new AppManagerFragmentCache();
-                case 1:
-                    return new AppManagerFragmentInstalledApps();
             }
             return null;
         }
